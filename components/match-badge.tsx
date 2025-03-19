@@ -1,32 +1,22 @@
-import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
 
 export const MatchBadge = ({
-  type,
-  similarity,
+  match,
 }: {
-  type: "direct" | "semantic";
-  similarity?: number;
+  match: number;
 }) => {
+  const isDirectMatch = match === 1;
+  
   return (
-    <div className="">
-      {type === "semantic" ? (
-        <>
-          <Badge
-            variant={"default"}
-            className="block sm:hidden bg-green-100 text-green-700"
-          >
-            Similarity: {similarity?.toFixed(3)}
-          </Badge>
-          <Badge
-            variant={"default"}
-            className="hidden sm:block bg-green-100 text-green-700"
-          >
-            Semantic Match: {similarity?.toFixed(3)}
-          </Badge>
-        </>
-      ) : (
-        <Badge variant={"secondary"}>Direct Match</Badge>
+    <div
+      className={cn(
+        "text-xs font-medium me-2 px-2.5 py-0.5 rounded",
+        isDirectMatch
+          ? "bg-[#34d399]/20 text-[#34d399]"
+          : "bg-[#b8af4f]/20 text-[#b8af4f]"
       )}
+    >
+      {isDirectMatch ? "Exact match" : `Similarity: ${(match * 100).toFixed(0)}%`}
     </div>
   );
 };

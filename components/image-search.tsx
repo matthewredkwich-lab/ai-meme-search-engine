@@ -1,6 +1,6 @@
 "use client";
 import { ImageCard } from "./image-card";
-import { DBImage } from "@/lib/db/schema";
+import { Meme } from "@/lib/db/schema";
 import { NoImagesFound } from "./no-images-found";
 import { useSharedTransition } from "@/lib/hooks/use-shared-transition";
 import { CardGridSkeleton } from "./card-grid-skeleton";
@@ -9,7 +9,7 @@ export const ImageSearch = ({
   images,
   query,
 }: {
-  images: DBImage[];
+  images: Meme[];
   query?: string;
 }) => {
   const { isPending } = useSharedTransition();
@@ -23,12 +23,12 @@ export const ImageSearch = ({
   return <ImageGrid images={images} />;
 };
 
-const ImageGrid = ({ images }: { images: DBImage[] }) => {
+const ImageGrid = ({ images }: { images: Meme[] }) => {
   return (
-    <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-2 relative">
+    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 relative">
       {images.map((image) => (
         <ImageCard
-          key={"image_" + image.id}
+          key={"meme_" + image.id}
           image={image}
           similarity={image.similarity}
         />

@@ -14,21 +14,13 @@ import { X } from "lucide-react";
 import { useDebouncedCallback } from "use-debounce";
 import { useSharedTransition } from "@/lib/hooks/use-shared-transition";
 
-export function SearchBox({
-  query,
-  disabled,
-}: {
-  query?: string | null;
-  disabled?: boolean;
-}) {
-  const { startTransition } = useSharedTransition();
+export function SearchBox({ query }: { query?: string }) {
+  const q = query || "";
   const inputRef = useRef<HTMLInputElement>(null);
-  const [isValid, setIsValid] = useState(true);
-
+  const [isValid, setIsValid] = useState(q.length >= 3);
   const searchParams = useSearchParams();
-  const q = searchParams.get("q")?.toString() ?? "";
   const pathname = usePathname();
-
+  const { startTransition, isPending: disabled } = useSharedTransition();
   const router = useRouter();
 
   const handleSearch = useDebouncedCallback((term: string) => {
@@ -46,65 +38,58 @@ export function SearchBox({
   }, 300);
 
   const resetQuery = () => {
-    startTransition &&
-      startTransition(() => {
-        router.push("/");
-        if (inputRef.current) {
-          inputRef.current.value = "";
-          inputRef.current?.focus();
-        }
-      });
+    if (inputRef.current) {
+      inputRef.current.value = "";
+      inputRef.current.focus();
+    }
+    handleSearch("");
   };
 
   return (
-    <div className="flex flex-col">
-      <div className="w-full mx-auto mb-4">
-        <div className="relative flex items-center space-x-2">
-          <div className="relative w-full flex items-center">
-            <SearchIcon className="absolute left-4 w-5 h-5 text-gray-500" />
-            <Input
-              disabled={disabled}
-              ref={inputRef}
-              defaultValue={query ?? ""}
-              minLength={3}
-              onChange={(e) => {
-                const newValue = e.target.value;
-                if (newValue.length > 2) {
-                  setIsValid(true);
-                  handleSearch(newValue);
-                } else if (newValue.length === 0) {
-                  handleSearch(newValue);
-                  setIsValid(false);
-                } else {
-                  setIsValid(false);
-                }
-              }}
-              className={
-                "text-base w-full pl-12 pr-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:focus:ring-blue-500"
+    <div className="w-full mb-4">
+      <div className="relative flex items-center justify-center">
+        <div className="relative w-full max-w-2xl mx-auto">
+          <SearchIcon className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 text-[#34d399]" />
+          <Input
+            disabled={disabled}
+            ref={inputRef}
+            defaultValue={query ?? ""}
+            minLength={3}
+            onChange={(e) => {
+              const newValue = e.target.value;
+              if (newValue.length > 2) {
+                setIsValid(true);
+                handleSearch(newValue);
+              } else if (newValue.length === 0) {
+                handleSearch(newValue);
+                setIsValid(false);
+              } else {
+                setIsValid(false);
               }
-              placeholder="Search..."
-            />
-            {q.length > 0 ? (
-              <Button
-                className="absolute right-2 text-gray-400 rounded-full h-8 w-8"
-                variant="ghost"
-                type="reset"
-                size={"icon"}
-                onClick={resetQuery}
-              >
-                <X height="20" width="20" />
-              </Button>
-            ) : null}
-          </div>
+            }}
+            className="text-2xl w-full pl-16 pr-16 py-10 rounded-lg border border-gray-700 bg-gray-900 text-white focus:outline-none focus:ring-2 focus:ring-[#34d399]"
+            placeholder="Search for memes..."
+          />
+          {q.length > 0 ? (
+            <Button
+              className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 rounded-full h-14 w-14"
+              variant="ghost"
+              type="reset"
+              size={"icon"}
+              onClick={resetQuery}
+            >
+              <X height="36" width="36" />
+            </Button>
+          ) : null}
         </div>
-        {!isValid ? (
-          <div className="text-xs pt-2 text-destructive">
-            Query must be 3 characters or longer
-          </div>
-        ) : (
-          <div className="h-6" />
-        )}
       </div>
+      {!isValid && q.length > 0 ? (
+        <div className="text-base pt-2 text-center text-[#34d399]">
+          Query must be 3 characters or longer
+        </div>
+      ) : (
+        <div className="h-8" />
+      )}
     </div>
   );
 }

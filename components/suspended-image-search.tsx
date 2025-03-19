@@ -1,13 +1,18 @@
-import { getImages } from "@/lib/db/api";
+import { getMemes } from "@/lib/db/api";
 import { ErrorComponent } from "./error";
 import { ImageSearch } from "./image-search";
 
 export const SuspendedImageSearch = async ({ query }: { query?: string }) => {
-  const { images, error } = await getImages(query);
+  try {
+    const { memes, error } = await getMemes(query);
 
-  if (error) {
-    return <ErrorComponent error={error} />;
+    if (error) {
+      return <ErrorComponent error={error} />;
+    }
+
+    return <ImageSearch images={memes} query={query} />;
+  } catch (e) {
+    console.error("Error in SuspendedImageSearch:", e);
+    return <ErrorComponent error={new Error("Failed to load memes")} />;
   }
-
-  return <ImageSearch images={images} query={query} />;
 };
