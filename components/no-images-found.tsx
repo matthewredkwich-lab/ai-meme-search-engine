@@ -21,16 +21,11 @@ To read more about using these font, please visit the Next.js documentation:
 import Image from "next/image";
 import Link from "next/link";
 
-// Array of suggested meme searches
+// Reduced suggested meme searches
 const suggestedSearches = [
   "cat memes",
   "programming jokes",
-  "AI fails",
-  "office humor",
-  "blockchain memes",
-  "dad jokes",
-  "tech humor",
-  "coffee addiction"
+  "AI fails"
 ];
 
 export const NoImagesFound = ({ query }: { query: string }) => {
@@ -40,23 +35,12 @@ export const NoImagesFound = ({ query }: { query: string }) => {
       <div className="flex flex-col items-center space-y-8 mt-4">
         {/* Suggested searches section - directly below search box */}
         <div className="w-full max-w-xl mx-auto">
-          <h4 className="text-center text-gray-300 mb-4 font-medium">Try one of these searches:</h4>
-          <div className="flex flex-wrap justify-center gap-3">
+          <div className="flex flex-wrap justify-center gap-4">
             {suggestedSearches.map((suggestion, index) => (
               <Link 
                 key={index} 
                 href={`/?q=${encodeURIComponent(suggestion)}`}
-                className={`
-                  py-2 px-4 rounded-full bg-gradient-to-r 
-                  ${index % 3 === 0 ? 'from-[#34d399]/20 to-[#34d399]/30 hover:from-[#34d399]/30 hover:to-[#34d399]/40' : 
-                    index % 3 === 1 ? 'from-[#34d399]/30 to-[#b8af4f]/30 hover:from-[#34d399]/40 hover:to-[#b8af4f]/40' : 
-                    'from-[#b8af4f]/20 to-[#b8af4f]/30 hover:from-[#b8af4f]/30 hover:to-[#b8af4f]/40'}
-                  text-white transition-all
-                  ${index % 4 === 0 ? 'transform -rotate-1' : 
-                    index % 4 === 1 ? 'transform rotate-1' : 
-                    index % 4 === 2 ? 'transform -rotate-2' : 'transform rotate-2'}
-                  ${index % 2 === 0 ? 'text-sm' : 'text-base'}
-                `}
+                className="py-2 px-6 rounded-md bg-[#34d399]/20 hover:bg-[#34d399]/40 text-white transition-all text-base"
               >
                 {suggestion}
               </Link>
@@ -64,15 +48,15 @@ export const NoImagesFound = ({ query }: { query: string }) => {
           </div>
         </div>
       
-        {/* Horizontal layout with logo and text - positioned right below suggestions */}
-        <div className="flex items-center justify-center space-x-4">
+        {/* Horizontal layout with logo and text - positioned below with fixed position */}
+        <div className="fixed bottom-8 flex items-center justify-center space-x-2" style={{marginTop: "880px"}}>
           <img
             src="/upstash-logo.svg"
             alt="Upstash Logo"
-            width={60}
-            height={60}
+            width={40}
+            height={40}
           />
-          <h3 className="text-xl font-medium bg-gradient-to-r from-[#34d399] to-[#b8af4f] inline-block text-transparent bg-clip-text">
+          <h3 className="text-base font-medium text-[#34d399]">
             Powered by Upstash
           </h3>
         </div>

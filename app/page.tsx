@@ -12,15 +12,12 @@ export default async function Home({
   const query = (await searchParams).q;
   
   return (
-    <main className="min-h-screen bg-black text-white pt-24 pb-8 px-8 space-y-4">
-      <header className="fixed top-0 left-0 right-0 z-50 transition-all duration-300 shadow-md p-6">
-        <div className="flex items-center">
-          <h1 className="font-semibold text-2xl text-white">Semantic Meme Search Engine</h1>
-        </div>
-      </header>
-      <TransparentHeader />
+    <main className="min-h-screen bg-[#1b283a] text-white pt-16 pb-8 px-2 space-y-4">
+      <div className="text-center mb-6">
+        <h1 className="font-bold text-4xl text-[#34d399]">Semantic Meme Search Engine</h1>
+      </div>
       <div className="w-full flex flex-col">
-        <div className="pt-10 sm:pt-12 md:pt-14 lg:pt-16">
+        <div className="pt-2 pb-4">
           <SearchBox query={query} />
         </div>
         <Suspense fallback={<CardGridSkeleton />} key={query}>

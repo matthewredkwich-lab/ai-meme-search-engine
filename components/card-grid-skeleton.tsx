@@ -2,8 +2,8 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export function CardGridSkeleton() {
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-      {new Array(16).fill("").map((_, i) => (
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 px-4 w-full">
+      {new Array(9).fill("").map((_, i) => (
         <SkeletonCard key={i} />
       ))}
     </div>
@@ -12,8 +12,8 @@ export function CardGridSkeleton() {
 
 export function SkeletonCard() {
   return (
-    <div className="flex flex-col space-y-3">
-      <Skeleton className="h-[400px] rounded-xl" />
+    <div className="flex flex-col">
+      <Skeleton className="h-[350px] rounded-md" />
     </div>
   );
 }
