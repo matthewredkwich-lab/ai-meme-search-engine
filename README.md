@@ -2,6 +2,8 @@
 
 A meme search engine powered by semantic search technology. This application allows you to search for memes using natural language, finding both direct text matches and semantically similar content.
 
+https://github.com/user-attachments/assets/ae168eb1-30a7-4cc2-bfdc-dd9206968cb4
+
 ## Features
 
 - **Semantic Search**: Find memes based on their semantic meaning, not just keywords
